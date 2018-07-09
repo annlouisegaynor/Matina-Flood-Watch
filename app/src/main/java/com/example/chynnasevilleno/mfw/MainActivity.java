@@ -13,20 +13,34 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.maps.MapView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+//Volley HTTP imports
+//Firebase imports
 
 public class MainActivity extends AppCompatActivity {
 
     TextView t1_city, t2_temp, t3_humidity, t4_weather_desc, t5_date;
     DatabaseReference weatherDB;
+    MapView mapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //MAPBOX
+        //accessing mapbox_access_token from strings.xml
+        Mapbox.getInstance(getApplicationContext(), getString(R.string.mapbox_access_token));
+        setContentView(R.layout.activity_main);
+        mapView = (MapView) findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+
+        //Initialize temperature values
         t1_city = findViewById(R.id.city);
         t2_temp = findViewById(R.id.temp);
         t3_humidity = findViewById(R.id.humidity);
@@ -37,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
         find_weather();
     }
     public void find_weather(){
+        //This function retrieves API values from Wunderground and
+        // displays it on the app
+
         String url = "http://api.wunderground.com/api/e86f48eaac49650b/conditions/q/philippines/davao.json";
 
         JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -75,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jor);
     }
     public void saveValues(String city, String temp, String hum, String description, String date){
+        //Saves database objects to Firebase
+
         String id = weatherDB.push().getKey();
 
         Weather weather = new Weather(id, city, temp, hum, description, date);
@@ -83,5 +102,48 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Weather data saved", Toast.LENGTH_SHORT).show();
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+
 
 }

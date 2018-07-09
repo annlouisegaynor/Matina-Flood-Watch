@@ -16,6 +16,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -30,7 +38,7 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-database:11.8.0'
     //MapBox
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.2.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.2.1'
     //Material Design
     implementation 'com.android.support:design:27.1.1'
 }
