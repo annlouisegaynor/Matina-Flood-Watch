@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">MFW</string>
     <string name="mapbox_access_token">pk.eyJ1IjoidGhlc2lzbG9sIiwiYSI6ImNqamN4aGlhMjQ2ZXMzcG9nejdzOTJxaHAifQ.FdM75jpLNSL68POkemlA6A</string>
+    <string-array name="matina_areas">
+        <item>Select Location ...</item>
+        <item>Matina Aplaya</item>
+        <item>Matina Crossing</item>
+        <item>Matina Pangi</item>
+    </string-array>
 </resources>
