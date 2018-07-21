@@ -1,76 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="95dp"
-        android:layout_height="22dp"
-        android:text="City"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.609" />
-
-    <TextView
-        android:id="@+id/temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="Temperature"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city" />
-
-    <TextView
-        android:id="@+id/humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Humidity"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/temp"
-        app:layout_constraintTop_toBottomOf="@+id/temp" />
-
-    <TextView
-        android:id="@+id/weather_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_marginTop="12dp"
-        android:text="Weather"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/humidity"
-        app:layout_constraintTop_toBottomOf="@+id/humidity" />
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="149dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="216dp"
-        android:layout_marginRight="216dp"
-        android:layout_marginTop="440dp"
-        android:text="Date"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.mapbox.mapboxsdk.maps.MapView
-        android:id="@+id/mapView"
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        mapbox:mapbox_cameraTargetLat="7.078203"
-        mapbox:mapbox_cameraTargetLng="125.568522"
-        mapbox:mapbox_styleUrl="@string/mapbox_style_mapbox_streets"
-        mapbox:mapbox_cameraZoom="15" />
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+        tools:layout_editor_absoluteY="81dp">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/city"
+            android:layout_width="95dp"
+            android:layout_height="22dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="City"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mapView" />
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Temperature"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city" />
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Humidity"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/temp" />
+
+        <TextView
+            android:id="@+id/weather_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Weather"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/humidity" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="149dp"
+            android:layout_height="25dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Date"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/weather_desc" />
+
+        <com.mapbox.mapboxsdk.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            mapbox:mapbox_cameraTargetLat="7.0725543"
+            mapbox:mapbox_cameraTargetLng="125.6135548"
+            mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10"
+            mapbox:mapbox_cameraZoom="12"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="24dp"
+            android:background="#FFFFFF"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mapView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <Spinner
+                android:id="@+id/matina_dropdown"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:dropDownWidth="200dp"
+                app:layout_constraintVertical_bias="0.0"
+                mapbox:layout_constraintEnd_toEndOf="parent"
+                mapbox:layout_constraintStart_toStartOf="parent" />
+
+        </RelativeLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
