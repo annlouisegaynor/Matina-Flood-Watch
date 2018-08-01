@@ -3,6 +3,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
@@ -11,81 +12,49 @@
         xmlns:mapbox="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".MainActivity"
         tools:layout_editor_absoluteY="81dp">
 
-        <TextView
-            android:id="@+id/city"
-            android:layout_width="95dp"
-            android:layout_height="22dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="City"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapView" />
-
-        <TextView
-            android:id="@+id/temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Temperature"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/city" />
-
-        <TextView
-            android:id="@+id/humidity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Humidity"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/temp" />
-
-        <TextView
-            android:id="@+id/weather_desc"
-            android:layout_width="wrap_content"
-            android:layout_height="27dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Weather"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/humidity" />
-
-        <TextView
-            android:id="@+id/date"
-            android:layout_width="149dp"
-            android:layout_height="25dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="Date"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weather_desc" />
 
         <com.mapbox.mapboxsdk.maps.MapView
             android:id="@+id/mapView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            mapbox:mapbox_cameraTargetLat="7.0725543"
-            mapbox:mapbox_cameraTargetLng="125.6135548"
-            mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10"
-            mapbox:mapbox_cameraZoom="12"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0"
+            mapbox:mapbox_cameraTargetLat="7.0725543"
+            mapbox:mapbox_cameraTargetLng="125.6135548"
+            mapbox:mapbox_cameraZoom="12"
+            mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10" />
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tablayout_id"
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:layout_marginTop="300dp"
+            android:background="@color/tabBackground"
+            android:elevation="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/viewpager_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/colorPrimary"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/tabTextColor" />
+
+
 
         <RelativeLayout
+            android:id="@+id/relativeLayout4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -109,6 +78,16 @@
 
         </RelativeLayout>
 
+        <android.support.v4.view.ViewPager
+            android:layout_width="377dp"
+            android:layout_height="163dp"
+            tools:layout_editor_absoluteX="2dp"
+            tools:layout_editor_absoluteY="350dp"
+            tools:ignore="MissingConstraints"
+            android:id="@+id/viewpager_id"/>
+
+
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
+

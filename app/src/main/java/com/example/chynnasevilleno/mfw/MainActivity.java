@@ -1,50 +1,61 @@
 package com.example.chynnasevilleno.mfw;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-//Volley HTTP imports
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-//Firebase imports
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-//Mapbox imports
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+
+//Fragments, TabLayout, ViewPager
+//Firebase imports
+//Mapbox imports
+//Volley HTTP imports
+
+
 
 public class MainActivity extends AppCompatActivity implements OnItemSelectedListener, OnMapReadyCallback{
 
-    TextView t1_city, t2_temp, t3_humidity, t4_weather_desc, t5_date;
-    DatabaseReference weatherDB;
     private MapboxMap mapboxMap;
     private MapView mapView;
-
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        tabLayout = (TabLayout)findViewById(R.id.tablayout_id);
+        viewPager = (ViewPager)findViewById(R.id.viewpager_id);
+
+        tabLayout.setupWithViewPager(viewPager);
+
+        //Creates the fragment (tab)
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new FragmentFlood(),"Flood");
+        adapter.addFragment(new FragmentWeather(), "Weather");
+        adapter.addFragment(new FragmentAnalytics(),"Analytics");
+
+        tabLayout.addTab(tabLayout.newTab().setText("Flood"));
+        tabLayout.addTab(tabLayout.newTab().setText("Weather"));
+        tabLayout.addTab(tabLayout.newTab().setText("Analytics"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        //pass view to view pager
+        viewPager.setAdapter(adapter);
+
 
         //Initialize Mapbox map
         Mapbox.getInstance(getApplicationContext(), getString(R.string.mapbox_access_token));
@@ -62,72 +73,8 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         matina_spinner.setOnItemSelectedListener(this);
         matina_spinner.bringToFront();
 
-        //Initialize temperature values
-        t1_city = findViewById(R.id.city);
-        t2_temp = findViewById(R.id.temp);
-        t3_humidity = findViewById(R.id.humidity);
-        t4_weather_desc = findViewById(R.id.weather_desc);
-        t5_date = findViewById(R.id.date);
-        weatherDB = FirebaseDatabase.getInstance().getReference("weather");
-
-        find_weather();
     }
 
-
-    public void find_weather(){
-        //This function retrieves API values from Wunderground and
-        // displays it on the app
-
-        String url = "http://api.wunderground.com/api/e86f48eaac49650b/conditions/q/philippines/davao.json";
-
-        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    //Get objects from JSON API
-                    JSONObject weather_obj = response.getJSONObject("current_observation");
-                    JSONObject location_obj = weather_obj.getJSONObject("display_location");
-                    //Get specific values from JSON API
-                    String city = location_obj.getString("full");
-                    String temp = String.valueOf(weather_obj.getDouble("temp_c"));
-                    String hum = weather_obj.getString("relative_humidity");
-                    String description = weather_obj.getString("weather");
-                    String date = weather_obj.getString("local_time_rfc822");
-
-                    t1_city.setText(city);
-                    t2_temp.setText(temp);
-                    t3_humidity.setText(hum);
-                    t4_weather_desc.setText(description);
-                    t5_date.setText(date);
-
-                    saveValues(city, temp, hum, description, date);
-
-                }catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        },new Response.ErrorListener(){
-            @Override
-            public void onErrorResponse(VolleyError error){
-                error.printStackTrace();
-            }
-        });
-        RequestQueue queue = Volley.newRequestQueue(this);
-        queue.add(jor);
-    }
-
-
-    public void saveValues(String city, String temp, String hum, String description, String date){
-        //Saves database objects to Firebase
-
-        String id = weatherDB.push().getKey();
-
-        Weather weather = new Weather(id, city, temp, hum, description, date);
-
-        weatherDB.child(id).setValue(weather);
-
-        Toast.makeText(this, "Weather data saved", Toast.LENGTH_SHORT).show();
-    }
 
 
     public void onItemSelected(AdapterView<?> parent, View view,int pos, long id) {
@@ -153,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
         //Update location of map given a set of latitude and longitude values
         CameraPosition position = new CameraPosition.Builder()
                 .target(new LatLng(lat, lang)) // Sets the new camera position
-                .zoom(12) // Sets the zoom
+                .zoom(15) // Sets the zoom
                 .bearing(90) // Rotate the camera
                 .build(); // Creates a CameraPosition from the builder
 
