@@ -36,21 +36,17 @@ public class Weather {
         return rainfall;
     }
 
-
     public String getRh() {
         return rh;
     }
-
 
     public String getMeant() {
         return meant;
     }
 
-
     public String getMaxt() {
         return maxt;
     }
-
 
     public String getMint() {
         return mint;
@@ -60,13 +56,13 @@ public class Weather {
         return spress;
     }
 
-
     public String getWindspeed() {
         return windspeed;
     }
 
-
     public String getFloodlvl() {
         return floodlvl;
     }
+
+
 }

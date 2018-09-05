@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
                 find_weather();
         }
 
-        Toast.makeText(this, "Weather values updated", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Weather values up to date.", Toast.LENGTH_SHORT).show();
         return super.onOptionsItemSelected(item);
     }
 
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements OnItemSelectedLis
 
         weatherDB.child(id).setValue(weather);
 
-        Toast.makeText(this, "Weather data up to date.", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Weather data saved", Toast.LENGTH_SHORT).show();
     }
 
 
