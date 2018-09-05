@@ -5,4 +5,8 @@
     <color name="colorAccent">#f2ca50</color>
     <color name="tabBackground">#FFFFFF</color>
     <color name="tabTextColor">#5078f2</color>
+    <color name="noFlood">#75D639</color>
+    <color name="slightFlood">#FBED00</color>
+    <color name="moderateFlood">#FF6F00</color>
+    <color name="heavyFlood">#C30000</color>
 </resources>

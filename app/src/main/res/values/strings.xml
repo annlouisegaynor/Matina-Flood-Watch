@@ -1,10 +1,29 @@
 <resources>
-    <string name="app_name">MFW</string>
+    <string name="app_name">Matina Flood Watch</string>
     <string name="mapbox_access_token">pk.eyJ1IjoidGhlc2lzbG9sIiwiYSI6ImNqamN4aGlhMjQ2ZXMzcG9nejdzOTJxaHAifQ.FdM75jpLNSL68POkemlA6A</string>
     <string-array name="matina_areas">
-        <item>Select Location ...</item>
         <item>Matina Aplaya</item>
         <item>Matina Crossing</item>
         <item>Matina Pangi</item>
+    </string-array>
+    <string-array name="matina_aplaya">
+        <item>125.577305</item>
+        <item>7.041089</item>
+        <item>125.570138</item>
+        <item>7.042366</item>
+    </string-array>
+    <string-array name="matina_crossing">
+        <item>125.570846</item>
+        <item>7.064173</item>
+        <item>25.566168</item>
+        <item>7.054654</item>
+    </string-array>
+    <string-array name="matina_pangi">
+        <item>7.077592</item>
+        <item>125.568452</item>
+        <item>125.572509</item>
+        <item>7.078786</item>
+        <item>25.574676</item>
+        <item>7.070396</item>
     </string-array>
 </resources>

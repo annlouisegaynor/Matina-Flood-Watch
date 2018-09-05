@@ -1,54 +1,72 @@
 package com.example.chynnasevilleno.mfw;
 
 public class Weather {
-    String weather_id;
-    String weather_city;
-    String weather_temp;
-    String weather_hum;
-    String weather_wind;
-    String weather_date;
-    String weather_sealevel;
+    String id;
+    String rainfall;
+    String rh;
+    String meant;
+    String maxt;
+    String mint;
+    String spress;
+    String windspeed;
+    String floodlvl;
 
     public Weather(){
 
     }
 
-    public Weather(String weather_id, String weather_city, String weather_temp, String weather_hum,  String weather_wind, String weather_sealevel,String weather_date) {
-        this.weather_id = weather_id;
-        this.weather_city = weather_city;
-        this.weather_temp = weather_temp;
-        this.weather_hum = weather_hum;
-        this.weather_wind = weather_wind;
-        this.weather_sealevel = weather_sealevel;
-        this.weather_date = weather_date;
+    public Weather(String id, String rainfall, String rh, String meant, String maxt,
+                   String mint,String spress, String windspeed, String floodlvl) {
+        this.id = id;
+        this.rainfall = rainfall;
+        this.rh = rh;
+        this.meant = meant;
+        this.maxt = maxt;
+        this.mint = mint;
+        this.spress = spress;
+        this.windspeed = windspeed;
+        this.floodlvl = floodlvl;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getRainfall() {
+        return rainfall;
     }
 
 
-    public String getWeather_id() {
-        return weather_id;
+    public String getRh() {
+        return rh;
     }
 
-    public String getWeather_city() {
-        return weather_city;
+
+    public String getMeant() {
+        return meant;
     }
 
-    public String getWeather_temp() {
-        return weather_temp;
+
+    public String getMaxt() {
+        return maxt;
     }
 
-    public String getWeather_hum() {
-        return weather_hum;
+
+    public String getMint() {
+        return mint;
     }
 
-    public String getWeather_wind() {
-        return weather_wind;
+    public String getSpress() {
+        return spress;
     }
 
-    public String getWeather_sealevel() {
-        return weather_sealevel;
+
+    public String getWindspeed() {
+        return windspeed;
     }
 
-    public String getWeather_date() {
-        return weather_date;
+
+    public String getFloodlvl() {
+        return floodlvl;
     }
 }
