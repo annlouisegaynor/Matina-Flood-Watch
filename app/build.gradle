@@ -38,16 +38,19 @@ dependencies {
     //Firebase
     implementation 'com.google.firebase:firebase-database:11.8.0'
     //MapBox
-    implementation ('com.mapbox.mapboxsdk:mapbox-android-sdk:6.3.0@aar') {
-        transitive=true
+    implementation('com.mapbox.mapboxsdk:mapbox-android-sdk:6.3.0@aar') {
+        transitive = true
     }
     implementation 'com.mapbox.mapboxsdk:mapbox-android-navigation:0.16.0'
-    implementation ('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.16.0') {
+    implementation('com.mapbox.mapboxsdk:mapbox-android-navigation-ui:0.16.0') {
         transitive = true
     }
     //Material Design
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    compile 'com.balysv.materialmenu:material-menu:2.0.0'
+    //Not Null
+    compile 'com.android.support:support-annotations:27.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

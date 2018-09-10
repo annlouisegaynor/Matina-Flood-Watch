@@ -6,24 +6,41 @@
         <item>Matina Crossing</item>
         <item>Matina Pangi</item>
     </string-array>
-    <string-array name="matina_aplaya">
-        <item>125.577305</item>
-        <item>7.041089</item>
-        <item>125.570138</item>
-        <item>7.042366</item>
-    </string-array>
-    <string-array name="matina_crossing">
-        <item>125.570846</item>
-        <item>7.064173</item>
-        <item>25.566168</item>
-        <item>7.054654</item>
-    </string-array>
-    <string-array name="matina_pangi">
-        <item>7.077592</item>
-        <item>125.568452</item>
-        <item>125.572509</item>
-        <item>7.078786</item>
-        <item>25.574676</item>
-        <item>7.070396</item>
-    </string-array>
+    <string name="home">Home</string>
+    <string name="about">About MFW</string>
+    <string name="developers">Developers</string>
+    <string name="settings">Settings</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="about_description">
+        <font size="24"><b>About the App</b></font>
+        \n\n\n<font color="#5078f2"><b>Matina Flood Watch</b></font> is an application that
+        attempts to predict flood water levels in the different
+        areas of Matina, Davao City in the event of flooding.
+        Its predicting algorithm makes use of data gathered
+        from the Philippine Atmospheric, Geophysical and
+        Astronomical Services Administration,
+        the Davao City Disaster Risk Reduction and Management Office,
+        and the Wunderground and OpenWeatherMap APIs. These gathered data were fed into a machine learning algorithm
+        that produced the predicting algorithm for Matina Flood Watch.
+        \n\nThis mobile application is a product of the undergraduate thesis, <font color="#5078f2"><i>A Mobile-based Urban
+        Flooding Water Level Prediction Application Implementing Machine Learning Algorithms</i></font>, by
+        <font color="#5078f2"> Chynna Sevilleno</font> and <font color="#5078f2">Ann-Louise Gaynor</font> of the Ateneo de Davao University under the mentorship
+        of <font color="#5078f2">Michelle P. Banawan, Ph.D</font>.
+    </string>
+    <string name="developers_description">
+        <font size="24"><b>The Developers</b></font>
+        \n\n\n<font color="#5078f2"><b>Chynna Nicolette S. Sevilleno</b></font>\n is a 4th Year B.S. Information
+        Technology Student at the Ateneo de Davao University. She is an aspiring UI/UX Engineer with a
+        love for Star Wars and Brooklyn 99.
+        \n\n\n<font color="#5078f2"><b>Ann-Louise K. Gaynor</b></font>\n is a 4th Year B.S. Information
+        Technology Student at the Ateneo de Davao University. She is an aspiring Backend Web Developer and
+        a lover of animated films and series.
+    </string>
+    <string name="info_window_1">There will be no flooding in this area.</string>
+    <string name="info_window_2">There will be flooding as high as</string>
+    <string name="info_window_2SF">m. Please be careful and stay vigilant.</string>
+    <string name="info_window_2MF">m. Stay alert and prepare for evacuation.</string>
+    <string name="info_window_2HF">m. Please evacuate to nearest evacuation center.</string>
 </resources>
