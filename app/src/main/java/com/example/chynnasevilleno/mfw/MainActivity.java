@@ -212,6 +212,11 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
                     // you cannot execute two asynchronous calls at the same time
                     // so i created a function that could call the next API request
                     // and pass the values of the first API request to the next request
+
+                    floodInAplaya = false;
+                    floodInCrossing = false;
+                    floodInPangi = false;
+                    
                     getOWM(city, hum, sea_level, rainfall, wind_speed, spress, observation_date, current_date);
 
 
@@ -423,7 +428,17 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
 
     // FLOOD CALCULATING
     public void getFloodedAreas(String hum, String sea_level, String rainfall, String wind_speed, String spress, String mint, String maxt, String meant){
-        // Calculate for flooded areas
+        Double rf = Double.parseDouble(rainfall);
+
+        if (rf == 2.6)
+            floodInPangi = true;
+
+        if (rf == 2.8)
+            floodInCrossing = true;
+
+        if (rf == 22.4)
+            floodInCrossing = true;
+
 
         if (floodInAplaya == true)
             aplayaFloodlvl = getFloodLevels(1, hum, sea_level, rainfall, wind_speed, spress, mint, maxt, meant);
