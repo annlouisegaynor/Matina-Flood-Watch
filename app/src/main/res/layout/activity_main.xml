@@ -28,10 +28,10 @@
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                mapbox:mapbox_cameraBearing="90"
                 mapbox:mapbox_cameraTargetLat="7.041237"
                 mapbox:mapbox_cameraTargetLng="125.573432"
                 mapbox:mapbox_cameraZoom="14"
-                mapbox:mapbox_cameraBearing="90"
                 mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10" />
 
             <RelativeLayout
@@ -61,6 +61,8 @@
                         android:dropDownWidth="250dp" />
 
                 </RelativeLayout>
+
+            <include layout="@layout/legend_layout"/>
 
         </FrameLayout>
 

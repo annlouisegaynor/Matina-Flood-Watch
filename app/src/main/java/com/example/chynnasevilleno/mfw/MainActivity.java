@@ -30,6 +30,7 @@ import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.annotations.Icon;
 import com.mapbox.mapboxsdk.annotations.IconFactory;
+import com.mapbox.mapboxsdk.annotations.InfoWindow;
 import com.mapbox.mapboxsdk.annotations.Marker;
 import com.mapbox.mapboxsdk.annotations.MarkerOptions;
 import com.mapbox.mapboxsdk.annotations.Polyline;
@@ -310,7 +311,7 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
         rainfallTxt.setText((rainfall) + " mm");
         humidityTxt.setText((hum) + " %");
         wind_speedTxt.setText((wind_speed)+" m/s");
-        sea_levelTxt.setText((sea_level)+" hPa ");
+        sea_levelTxt.setText((sea_level)+" hPa");
         dateTxt.setText(current_date);
         observation_dateTxt.setText(observation_date);
 
@@ -589,7 +590,7 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
             intensity = "#FBED00";
 
         if (floodlevel < 5 && floodlevel >= 0.5)
-            intensity = "FF6F00";
+            intensity = "#FF6F00";
 
         if (floodlevel >= 5)
             intensity = "#C30000";
@@ -601,7 +602,7 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
     // MAP MARKERS
     public void createMarkers(){
         IconFactory iconFactory = IconFactory.getInstance(MainActivity.this);
-        Icon icon = iconFactory.fromResource(R.drawable.mapbox_marker);
+        Icon icon = iconFactory.fromResource(R.drawable.transparent_marker);
 
         aplayaMarker = mapboxMap.addMarker(new MarkerOptions()
                 .position(new LatLng(7.041127, 125.574047))
@@ -611,7 +612,7 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
         updateMarker(0);
 
         crossingMarker = mapboxMap.addMarker(new MarkerOptions()
-                .position(new LatLng(7.058837, 125.568808))
+                .position(new LatLng(7.05873, 125.56878))
                 .title("Matina Crossing")
                 .icon(icon)
         );
@@ -715,11 +716,24 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
         // Perform function every hour
         timer.schedule (hourlyTask, 0l, 3600000);
 
-        // Ready flood route for Matina Aplaya
-        createRoute(0);
-
         // Create Matina markers
         createMarkers();
+
+        // Allow the map to have multiple open infowindows at once
+        mapboxMap.setAllowConcurrentMultipleOpenInfoWindows(true);
+
+        // Allow the map to have keep infowindows open at all times
+        mapboxMap.getUiSettings().setDeselectMarkersOnTap(false);
+
+        // Display flood routes for Matina
+        createRoute(0); // Aplaya
+        createRoute(1); // Crossing
+        createRoute(2); // Pangi
+
+        // Display info windows of Matina markers
+        mapboxMap.selectMarker(aplayaMarker);
+        mapboxMap.selectMarker(crossingMarker);
+        mapboxMap.selectMarker(pangiMarker);
     }
 
 

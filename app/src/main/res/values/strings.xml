@@ -24,8 +24,8 @@
         the Davao City Disaster Risk Reduction and Management Office,
         and the Wunderground and OpenWeatherMap APIs. These gathered data were fed into a machine learning algorithm
         that produced the predicting algorithm for Matina Flood Watch.
-        \n\nThis mobile application is a product of the undergraduate thesis, <font color="#5078f2"><i>A Mobile-based Urban
-        Flooding Water Level Prediction Application Implementing Machine Learning Algorithms</i></font>, by
+        \n\nThis mobile application is a product of the undergraduate thesis, <font color="#5078f2"><b>A Mobile-based Urban
+        Flooding Water Level Prediction Application Implementing Machine Learning Algorithms</b></font>, by
         <font color="#5078f2"> Chynna Sevilleno</font> and <font color="#5078f2">Ann-Louise Gaynor</font> of the Ateneo de Davao University under the mentorship
         of <font color="#5078f2">Michelle P. Banawan, Ph.D</font>.
     </string>

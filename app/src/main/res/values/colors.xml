@@ -6,4 +6,5 @@
     <color name="tabBackground">#FFFFFF</color>
     <color name="tabTextColor">#5078f2</color>
     <color name="darkGrey">#484848</color>
+    <color name="whiteTransparent">#deffffff</color>
 </resources>
