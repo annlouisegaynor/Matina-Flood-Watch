@@ -1,66 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteY="81dp">
 
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="95dp"
-        android:layout_height="22dp"
-        android:text="City"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.088"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.032" />
 
-    <TextView
-        android:id="@+id/temp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="14dp"
-        android:text="Temperature"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city" />
+    <!-- SLIDING PANEL -->
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoPanelHeight="160dp"
+        sothree:umanoShadowHeight="4dp"
+        android:background="#FFFFFF">
 
-    <TextView
-        android:id="@+id/humidity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Humidity"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/temp"
-        app:layout_constraintTop_toBottomOf="@+id/temp" />
+        <!-- MAIN CONTENT (MAP) -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.mapbox.mapboxsdk.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                mapbox:mapbox_cameraBearing="90"
+                mapbox:mapbox_cameraTargetLat="7.041237"
+                mapbox:mapbox_cameraTargetLng="125.573432"
+                mapbox:mapbox_cameraZoom="14"
+                mapbox:mapbox_styleUrl="mapbox://styles/mapbox/streets-v10" />
 
-    <TextView
-        android:id="@+id/weather_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
-        android:layout_marginTop="16dp"
-        android:text="Weather"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/humidity"
-        app:layout_constraintTop_toBottomOf="@+id/humidity" />
+            <RelativeLayout
+                    android:layout_width="270dp"
+                    android:layout_height="63dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="24dp"
+                    android:background="#FFFFFF"
+                    android:gravity="center|top"
+                    android:padding="10dp">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="149dp"
-        android:layout_height="25dp"
-        android:layout_marginEnd="216dp"
-        android:layout_marginRight="216dp"
-        android:layout_marginTop="172dp"
-        android:text="Date"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/matina_dropdown"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:text="Location"
+                        android:textColor="@color/colorPrimary" />
+
+                    <Spinner
+                        android:id="@+id/matina_dropdown"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true"
+                        android:dropDownWidth="250dp" />
+
+                </RelativeLayout>
+
+            <include layout="@layout/legend_layout"/>
+        </FrameLayout>
+
+
+        <!-- PANEL CONTENT (FLOOD VALUES)-->
+        <TableLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/dragView"
+                android:layout_width="wrap_content"
+                android:layout_height="350dp"
+                android:background="#ffffff"
+                android:clickable="true"
+                android:focusable="false"
+                android:orientation="vertical"
+                android:stretchColumns="1"
+                android:paddingRight="20dp"
+                android:paddingLeft="30dp">
+
+                <TextView
+                    android:id="@+id/location_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:textAllCaps="true"
+                    android:text="Matina Aplaya"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans"
+                    android:text="City"
+                    android:textSize="18sp"/>
+
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dp"
+                    android:background="#E7E7E7"
+                    android:layout_marginTop="8dp"/>
+
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/open_sans_bold"
+                    android:text="Date"
+                    android:textSize="16sp" />
+
+
+                <TableRow
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/flood_label"
+                        android:layout_width="0dp"
+                        android:layout_weight=".35"
+                        android:layout_height="wrap_content"
+                        android:text="Flood Water Level"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans"/>
+
+                    <TextView
+                        android:id="@+id/flood"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="0.0 meters"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="right"
+                        />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/rain_label"
+                        android:layout_width="0dp"
+                        android:layout_weight=".35"
+                        android:layout_height="wrap_content"
+                        android:text="Rainfall"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans"/>
+
+                    <TextView
+                        android:id="@+id/rainfall"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="0.0 m/s"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="right"/>
+
+                </TableRow>
+
+            <TableRow
+                android:layout_marginTop="8dp">
+
+                <TextView
+                        android:id="@+id/temp_label"
+                        android:layout_width="0dp"
+                        android:layout_weight=".35"
+                        android:layout_height="wrap_content"
+                        android:text="Temperature"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans"/>
+
+                    <TextView
+                        android:id="@+id/temp"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="right"/>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/humidity_label"
+                        android:layout_width="0dp"
+                        android:layout_weight=".35"
+                        android:layout_height="wrap_content"
+                        android:text="Relative Humidity"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans"/>
+
+
+                    <TextView
+                        android:id="@+id/humidity"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="0%"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="right"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/wind_speed_label"
+                        android:layout_width="0dp"
+                        android:layout_weight=".35"
+                        android:layout_height="wrap_content"
+                        android:text="Wind Speed"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans"/>
+
+                    <TextView
+                        android:id="@+id/wind_speed"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans_bold"
+                        android:gravity="right"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/sea_level_label"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="Sea Level Pressure"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans"/>
+
+                    <TextView
+                        android:id="@+id/sea_level"
+                        android:layout_width="0dp"
+                        android:layout_weight=".3"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:gravity="right"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/open_sans_bold"/>
+
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/observation_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Last Updated"
+                        android:textSize="16sp"
+                        android:layout_marginTop="10dp" />
+
+                </TableRow>
+
+            </TableLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
 </android.support.constraint.ConstraintLayout>

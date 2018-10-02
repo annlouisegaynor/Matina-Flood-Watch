@@ -1,3 +1,53 @@
 <resources>
-    <string name="app_name">MFW</string>
+    <string name="app_name">Matina Flood Watch</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoidGhlc2lzbG9sIiwiYSI6ImNqamN4aGlhMjQ2ZXMzcG9nejdzOTJxaHAifQ.FdM75jpLNSL68POkemlA6A</string>
+
+    <string-array name="matina_areas">
+        <item>Matina Aplaya</item>
+        <item>Matina Crossing</item>
+        <item>Matina Pangi</item>
+    </string-array>
+
+    <string name="home">Home</string>
+    <string name="about">About MFW</string>
+    <string name="developers">Developers</string>
+    <string name="settings">Settings</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawerActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="about_description">
+        <font size="24"><b>About the App</b></font>
+        \n\n<font color="#5078f2"><b>Matina Flood Watch</b></font> is an application that
+        attempts to predict flood water levels in the different
+        areas of Matina, Davao City in the event of flooding.
+        Its predicting algorithm makes use of data gathered
+        from the Philippine Atmospheric, Geophysical and
+        Astronomical Services Administration,
+        the Davao City Disaster Risk Reduction and Management Office,
+        and the Wunderground and OpenWeatherMap APIs. These gathered data were fed into a machine learning algorithm
+        that produced the predicting algorithm for Matina Flood Watch.
+        \n\nThis mobile application is a product of the undergraduate thesis, <font color="#5078f2"><b>A Mobile-based Urban
+        Flooding Water Level Prediction Application Implementing Machine Learning Algorithms</b></font>, by
+        <font color="#5078f2"> Chynna Sevilleno</font> and <font color="#5078f2">Ann-Louise Gaynor</font> of the Ateneo de Davao University under the mentorship
+        of <font color="#5078f2">Michelle P. Banawan, Ph.D</font>.
+    </string>
+    <string name="developers_description">
+        <font size="24"><b>The Developers</b></font>
+        \n\n\n<font color="#5078f2"><b>Chynna Nicolette S. Sevilleno</b></font>\n is a 4th Year B.S. Information
+        Technology Student at the Ateneo de Davao University. She is an aspiring UI/UX Engineer with a
+        love for Star Wars and Brooklyn 99.
+        \ne-mail: <i><font color="#5078f2">cnssevilleno@addu.edu.ph</font></i>
+        \n\n\n<font color="#5078f2"><b>Ann-Louise K. Gaynor</b></font>\n is a 4th Year B.S. Information
+        Technology Student at the Ateneo de Davao University. She is an aspiring Backend Web Developer and
+        a lover of animated films and series.
+        \ne-mail: <i><font color="#5078f2">akgaynor@addu.edu.ph</font></i>
+    </string>
+
+    <string name="info_window_1">There will be no flooding in this area.</string>
+    <string name="info_window_2">There will be flooding as high as</string>
+    <string name="info_window_2SF">m. Please be careful and stay vigilant.</string>
+    <string name="info_window_2MF">m. Stay alert and prepare for evacuation.</string>
+    <string name="info_window_2HF">m. Please evacuate to nearest evacuation center.</string>
+
+
 </resources>
