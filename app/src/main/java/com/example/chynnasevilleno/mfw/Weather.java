@@ -10,13 +10,14 @@ public class Weather {
     String spress;
     String windspeed;
     String floodlvl;
+    String floodarea;
 
     public Weather(){
 
     }
 
     public Weather(String id, String rainfall, String rh, String meant, String maxt,
-                   String mint,String spress, String windspeed, String floodlvl) {
+                   String mint,String spress, String windspeed, String floodlvl, String floodarea) {
         this.id = id;
         this.rainfall = rainfall;
         this.rh = rh;
@@ -26,6 +27,7 @@ public class Weather {
         this.spress = spress;
         this.windspeed = windspeed;
         this.floodlvl = floodlvl;
+        this.floodlvl = floodarea;
     }
 
     public String getId() {
@@ -64,5 +66,7 @@ public class Weather {
         return floodlvl;
     }
 
-
+    public String getFloodarea() {
+        return floodarea;
+    }
 }

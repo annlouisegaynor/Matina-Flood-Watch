@@ -48,9 +48,10 @@ dependencies {
     //Material Design
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.sothree.slidinguppanel:library:3.4.0'
-    compile 'com.balysv.materialmenu:material-menu:2.0.0'
+    implementation 'com.balysv.materialmenu:material-menu:2.0.0'
     //Not Null
-    compile 'com.android.support:support-annotations:27.1.1'
+    implementation 'com.android.support:support-annotations:27.1.1'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

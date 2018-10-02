@@ -84,7 +84,6 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
     Weather weather;
 
     //Flood Predicting
-    Boolean floodInAplaya, floodInCrossing, floodInPangi;
     double aplayaFloodlvl, crossingFloodlvl, pangiFloodlvl;
     float floodlvltemp = 0;
 
@@ -130,16 +129,11 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
         observation_dateTxt = findViewById(R.id.observation_date);
         weatherDB = FirebaseDatabase.getInstance().getReference("weather");
 
-        // Initialize Flooding in Matina Areas to false
-        floodInPangi= false;
-        floodInCrossing= false;
-        floodInAplaya = false;
-
         // Set checked item of navigation drawer to current activity
         navigationView.setCheckedItem(R.id.nav_home);
 
         // Check for an internet connection
-        new InternetCheck(internet -> {
+         new InternetCheck(internet -> {
             if(true){
 
             }else{
@@ -161,7 +155,6 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
 
         displayCache(cityCache, rainfallCache, temperatureCache, humidityCache, windspeedCache, sealevelCache,
                 currentCache, observationCache);
-
     }
 
 
@@ -183,41 +176,38 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
         String API_URL_WUNDERGROUND = "http://api.wunderground.com/api/e86f48eaac49650b/conditions/q/philippines/davao.json";
 
         // JsonObjectRequest for Wunderground
-        JsonObjectRequest jor_wunderground = new JsonObjectRequest(Request.Method.GET, API_URL_WUNDERGROUND, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jor_wunderground = new JsonObjectRequest(Request.Method.GET, API_URL_WUNDERGROUND,
+                                            null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 String city, hum, sea_level, rainfall, wind_speed, spress, observation_date, current_date;
 
                 try {
-                    //Get objects from JSON API
+                    // Get objects from JSON API
                     JSONObject weather_obj = response.getJSONObject("current_observation");
                     JSONObject location_obj = weather_obj.getJSONObject("display_location");
 
-                    //Get specific values from JSON API
+                    // Get specific values from JSON API
                     city = location_obj.getString("city")+" City";
                     hum = weather_obj.getString("relative_humidity");
-                    sea_level = weather_obj.getString("pressure_mb");
-                    rainfall = weather_obj.getString("precip_today_metric");
+                    rainfall = weather_obj.getString("precip_1hr_metric");
                     observation_date = weather_obj.getString("observation_time");
                     wind_speed = weather_obj.getString("wind_kph");
                     spress = weather_obj.getString("pressure_mb");
 
-                    //displays date using Java's .getDateInstance()
+                    // Displays date using Java's .getDateInstance()
                     Calendar calendar = Calendar.getInstance();
                     current_date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
-                    // hum value has "%" and i need to delete that when i save in the database
+                    // Remove % from Hum string when saving to database
                     hum = hum.replace("%", "");
 
-                    // you cannot execute two asynchronous calls at the same time
-                    // so i created a function that could call the next API request
-                    // and pass the values of the first API request to the next request
+                    // Reset Floodlvl to 0
+                    aplayaFloodlvl = 0;
+                    crossingFloodlvl= 0;
+                    pangiFloodlvl = 0;
 
-                    floodInAplaya = false;
-                    floodInCrossing = false;
-                    floodInPangi = false;
-                    
-                    getOWM(city, hum, sea_level, rainfall, wind_speed, spress, observation_date, current_date);
+                    getOWM(city, hum, rainfall, wind_speed, spress, observation_date, current_date);
 
 
                 }catch (JSONException e){
@@ -236,35 +226,42 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
     }
 
 
-    public void getOWM(String city, String hum, String sea_level, String rainfall, String wind_speed, String spress, String observation_date, String current_date ){
+    public void getOWM(String city, String hum, String rainfall, String wind_speed, String spress, String observation_date, String current_date ){
         // JsonObjectRequest for OpenWeatherMap
-        String API_URL_OWM = "http://api.openweathermap.org/data/2.5/weather?q=davao,ph&id=524901&units=metric&APPID=bd5e378503939ddaee76f12ad7a97608";
+        String API_URL_OWM = "http://api.openweathermap.org/data/2.5/weather?q=davao,ph&id=524901&units=metric&APPID=fe2824d1eb30f40b0848c575cd1469c4";
         JsonObjectRequest jor_owm = new JsonObjectRequest(Request.Method.GET, API_URL_OWM, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                String mint, maxt, meant, floodlvl;
+                String mint, maxt, meant, flood_level, flooded_area;
+                int area;
+                Double floodlevel;
                 float meantemp;
 
                 try {
-                    //Get objects from JSON API
+                    // Get objects from JSON API
                     JSONObject main_obj = response.getJSONObject("main");
 
-                    //Get specific values from JSON API
+                    // Get specific values from JSON API
                     mint = main_obj.getString("temp_min");
                     maxt = main_obj.getString("temp_max");
 
-                    //meantemp is the temporary calculation holder
+                    // meantemp is the temporary calculation holder
                     meantemp = (Float.parseFloat(maxt) + Float.parseFloat(mint)) / 2;
-                    //converting meantemp to String
+
+                    // Convert meantemp to String
                     meant = String.valueOf(meantemp);
 
-                    //converting floodlvl to string
-                    floodlvl = Float.toString(floodlvltemp);
+                    // Convert floodlvl to string
+                    flood_level = Float.toString(floodlvltemp);
 
-                    getFloodedAreas(hum, sea_level, rainfall, wind_speed, spress, mint, maxt, meant);
-                    displayWeatherValues(city, rainfall, meant, hum, wind_speed, sea_level, current_date, observation_date);
-                    saveValues(rainfall, hum, meant, maxt, mint, spress, wind_speed, floodlvl);
-                    //saveValues(rainfall, hum, meant, maxt, mint, spress, wind_speed, aplayaFloodlvl, crossingFloodlvl, pangiFloodlvl);
+                    floodlevel = getFloodLevels(hum, rainfall, wind_speed, spress, mint, maxt, meant);
+                    area = getFloodedAreas(rainfall, spress, wind_speed, mint, meant, maxt, hum, floodlevel);
+                    displayWeatherValues(city, rainfall, meant, hum, wind_speed, spress, current_date, observation_date);
+
+                    flood_level = String.valueOf(flood_level);
+                    flooded_area = String.valueOf(area);
+
+                    saveValues(rainfall, hum, meant, maxt, mint, spress, wind_speed, flood_level,flooded_area);
 
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -350,15 +347,15 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
     }
 
 
-    public void saveValues(String rainfall, String rh, String meant, String maxt, String mint, String spress, String windspeed,  String floodlvl){
+    public void saveValues(String rainfall, String rh, String meant, String maxt, String mint,
+                           String spress, String windspeed, String floodlvl, String floodarea){
         //Saves database objects to Firebase for later data training
         String id = weatherDB.push().getKey();
 
-        Weather weather = new Weather(id, rainfall, rh, meant, maxt, mint, spress, windspeed, floodlvl);
+        Weather weather = new Weather(id, rainfall, rh, meant, maxt, mint, spress,
+                                      windspeed, floodlvl, floodarea);
 
         weatherDB.child(id).setValue(weather);
-
-        //Toast.makeText(this, "Weather data saved", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -375,7 +372,8 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
                     createRoute(pos);
                     updateMarker(pos);
                     updateCamera(7.041237, 125.573432);
-                    //gets values from selected value (in String format) from dropdown and sets location_id value
+                    //gets values from selected value (in String format) from dropdown
+                    // and sets location_id value
                     matina_location = parent.getItemAtPosition(pos).toString();
                     matina_locTxt = (TextView) findViewById(R.id.location_id);
                     matina_locTxt.setText(matina_location);
@@ -427,68 +425,242 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
 
 
     // FLOOD CALCULATING
-    public void getFloodedAreas(String hum, String sea_level, String rainfall, String wind_speed, String spress, String mint, String maxt, String meant){
-        Double rf = Double.parseDouble(rainfall);
+    public int getFloodedAreas(String rainfall, String spress, String wind_speed, String mint,
+                               String meant, String  maxt, String hum, Double floodLevel){
 
-        if (rf == 2.6)
-            floodInPangi = true;
-
-        if (rf == 2.8)
-            floodInCrossing = true;
-
-        if (rf == 22.4)
-            floodInCrossing = true;
-
-
-        if (floodInAplaya == true)
-            aplayaFloodlvl = getFloodLevels(1, hum, sea_level, rainfall, wind_speed, spress, mint, maxt, meant);
-        else
-            aplayaFloodlvl = 0;
-
-        if (floodInCrossing == true)
-            crossingFloodlvl = getFloodLevels(2, hum, sea_level, rainfall, wind_speed, spress, mint, maxt, meant);
-        else
-            crossingFloodlvl = 0;
-
-        if (floodInPangi == true)
-            pangiFloodlvl = getFloodLevels(3, hum, sea_level, rainfall, wind_speed, spress, mint, maxt, meant);
-        else
-            pangiFloodlvl = 0;
-    }
-
-
-    public Double getFloodLevels(int matina, String hum, String sea_level, String rainfall, String wind_speed, String spress, String mint, String maxt, String meant){
-        // Calculate for flood water level areas
-
-        double floodLevel = 0.0;
+        int area = 0;
         double rf = Double.parseDouble(rainfall);
-        double slvlpress = Double.parseDouble(sea_level);
+        double slp = Double.parseDouble(spress);
         double ws = Double.parseDouble(wind_speed);
         double mit = Double.parseDouble(mint);
         double met = Double.parseDouble(meant);
         double mat = Double.parseDouble(maxt);
         double rh = Double.parseDouble(hum);
-        int area = matina;
 
-
-        if (met < 24.15){
-            floodLevel = 4.27;
-        }
-        else if (met >= 24.15){
-            if (area >= 1){
-                if (rf < 3.3){
-                    floodLevel = 1.07;
-                }
-                else if (rf >= 3.3){
-                    if (rf < 5.7){
-                        floodLevel = 3;
-                    }
-                    else if (rf >= 5.7){
-                        if (mat < 29.4){
-                            floodLevel = 2;
+        if (slp < 1007.05){
+            if (floodLevel < 0.99)
+                area = 0;
+            else{
+                if (rf < 9.2){
+                    if (mat < 32.5){
+                        if (rf < 5.7)
+                            area = 0;
+                        else{
+                            if (floodLevel < 1.45)
+                                area = 0;
+                            else {
+                                crossingFloodlvl = floodLevel;
+                                area = 3;
+                            }
                         }
-                        else if (mat >= 29.4){
-                            floodLevel = 1.07;
+                    }
+                    else
+                        area = 0;
+                }
+                else {
+                    if (ws < 2.5){
+                        if (rf < 16.6) {
+                            pangiFloodlvl = floodLevel;
+                            area = 2;
+                        }
+                        else{
+                            pangiFloodlvl = floodLevel;
+                            area = 2;
+                        }
+                    }
+                    else{
+                        if (rh < 91.5)
+                            area = 0;
+                        else{
+                            aplayaFloodlvl = floodLevel;
+                            area = 1;
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            if (met < 25.65){
+                if (mit < 22.5){
+                    if (rf < 11.4){
+                        crossingFloodlvl = floodLevel;
+                        area = 2;
+                    }
+                    else
+                        area = 0;
+                }
+                else
+                    area = 0;
+            }
+            else
+                area = 0;
+        }
+
+        return area;
+    }
+
+
+    public Double getFloodLevels (String hum, String rainfall, String wind_speed,
+                                 String spress, String mint, String maxt, String meant){
+
+        double floodLevel = 0.0;
+        double rf = Double.parseDouble(rainfall);
+        double slp = Double.parseDouble(spress);
+        double ws = Double.parseDouble(wind_speed);
+        double mit = Double.parseDouble(mint);
+        double met = Double.parseDouble(meant);
+        double mat = Double.parseDouble(maxt);
+        double rh = Double.parseDouble(hum);
+
+        if (mat < 25.2)
+            floodLevel = 3.36;
+        else
+        {
+            if (met < 27.85){
+                if (ws < 1.5){
+                    if (mat < 27.95)
+                        floodLevel = 2;
+                    else{
+                        if (met < 27.75)
+                            floodLevel = 0.46;
+                        else{
+                            if (rf < 0.3)
+                                floodLevel = 0.3;
+                            else{
+                                if (rh < 84)
+                                    floodLevel = 0.38;
+                                else
+                                    floodLevel = 0.46;
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (mit < 23.15){
+                        if (met < 27.4){
+                            if (mat < 30.2){
+                                if (rf < 11.4)
+                                    floodLevel = 10.7;
+                                else
+                                    floodLevel = 1;
+                            }
+                            else
+                                floodLevel = 0.91;
+                        }
+                        else
+                            floodLevel = 1.21;
+                    }
+                    else{
+                        if (mat < 29.45){
+                            if (mat < 29.05){
+                                if (rh < 94){
+                                    if (rf < 3.6)
+                                        floodLevel = 0.65;
+                                    else
+                                        floodLevel  = 0.46;
+                                }
+                                else
+                                    floodLevel = 0.84;
+                            }
+                            else{
+                                if (rh < 88)
+                                    floodLevel = 1.07;
+                                else
+                                    floodLevel = 3;
+                            }
+                        }
+                        else
+                            floodLevel = 0.46;
+                    }
+                }
+            }
+            else {
+                if (mat < 31.65){
+                    if (mit < 24.7){
+                        if (mit < 24.4){
+                            if (rh < 85.5)
+                                floodLevel = 0.46;
+                            else
+                                floodLevel = 0.61;
+                        }
+                        else
+                            floodLevel = 0.91;
+                    }
+                    else
+                        floodLevel = 2.83;
+                }
+                else{
+                    if (mit < 24.05){
+                        if (mit < 23.9){
+                            if (mat < 32.05)
+                                floodLevel = 1.3;
+                            else  {
+                                if (rf < 95.5){
+                                    if (met < 28.45)
+                                        floodLevel = 0.46;
+                                    else
+                                        floodLevel = 0.61;
+                                }
+                                else
+                                    floodLevel = 1.06;
+                            }
+                        }
+                        else{
+                            if (rf < 9.65)
+                                floodLevel = 0.46;
+                            else
+                                floodLevel = 5;
+                        }
+                    }
+                    else{
+                        if (met < 28.75)
+                            floodLevel = 0.46;
+                        else{
+                            if (rf < 2.5){
+                                if (ws < 1.5)
+                                    floodLevel = 0.61;
+                                else {
+                                    if (ws < 2.5){
+                                        if (slp < 1007.8)
+                                            floodLevel = 0.46;
+                                        else{
+                                            if (rf < 1.7)
+                                                floodLevel = 0.46;
+                                            else
+                                                floodLevel = 0.3;
+                                        }
+                                    }
+                                    else{
+                                        if (mat < 33.75)
+                                            floodLevel = 0.6;
+                                        else
+                                            floodLevel = 0.46;
+                                    }
+                                }
+                            }
+                            else{
+                                if (rf < 52.25){
+                                    if (rh < 79.5)
+                                        floodLevel = 0.46;
+                                    else{
+                                        if (mit < 25.05){
+                                            if (rf < 8.5){
+                                                floodLevel = 0.46;
+                                            }
+                                            else {
+                                                if (rh < 83.5)
+                                                    floodLevel = 0.71;
+                                                else
+                                                    floodLevel = 0.76;
+                                            }
+                                        }
+                                        else
+                                            floodLevel = 1.07;
+                                    }
+                                }
+                                else
+                                    floodLevel = 0.46;
+                            }
                         }
                     }
                 }
@@ -559,7 +731,8 @@ public class MainActivity extends NavigationDrawerActivity implements OnItemSele
 
         String floodIntensity;
         List<LatLng> points = new ArrayList<>();
-        List<Point> coords = LineString.fromPolyline(route.geometry(), Constants.PRECISION_6).coordinates();
+        List<Point> coords = LineString.fromPolyline(route.geometry(),
+                                                     Constants.PRECISION_6).coordinates();
 
         floodIntensity = getFloodIntensity(matina);
 

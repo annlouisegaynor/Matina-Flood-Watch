@@ -23,7 +23,6 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <com.mapbox.mapboxsdk.maps.MapView
                 android:id="@+id/mapView"
                 android:layout_width="match_parent"
@@ -63,7 +62,6 @@
                 </RelativeLayout>
 
             <include layout="@layout/legend_layout"/>
-
         </FrameLayout>
 
 
@@ -79,7 +77,6 @@
                 android:stretchColumns="1"
                 android:paddingRight="20dp"
                 android:paddingLeft="30dp">
-
 
                 <TextView
                     android:id="@+id/location_id"
@@ -216,7 +213,6 @@
 
                 </TableRow>
 
-
                 <TableRow
                     android:layout_marginTop="8dp">
 
@@ -240,7 +236,6 @@
                         android:gravity="right"/>
 
                 </TableRow>
-
 
                 <TableRow
                     android:layout_marginTop="8dp">
